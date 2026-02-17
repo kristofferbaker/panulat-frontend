@@ -7,23 +7,27 @@ import axios from "axios";
 const LoginPage = () => {
   const router = useRouter();
 
-  async function registerUser(values) {
+  async function loginUser(values) {
     const toastLoading = toast.loading("Loading...");
 
     try {
-      // Register the user.
-      await axios({
+      // Login the user.
+      const response = await axios({
         method: "post",
-        url: `${process.env.NEXT_PUBLIC_BACKEND}/api/registration/`,
+        url: `${process.env.NEXT_PUBLIC_BACKEND}/api/login/`,
         data: values
       });
+
+      // Get the token from the response and save it in the browser's localStorage.
+      const token = response.data.key;
+      localStorage.setItem("token", token);
       
       toast.dismiss(toastLoading);
-      toast.success("Registration was successful !");
+      toast.success("Login was successful !");
       
-      // setTimeout(() => {
-      //   router.push("/login");
-      // }, 2000);
+      setTimeout(() => {
+        router.push("/account-mode/subscriptions/");
+      }, 2000);
     } catch (error) {
       toast.dismiss(toastLoading);
       toast.error("Something went wrong !");
@@ -43,7 +47,7 @@ const LoginPage = () => {
 
     if (!values.password) {
       errors.password = "Required";
-    } else if (values.password1.length < 8) {
+    } else if (values.password.length < 8) {
       errors.password = "Must be at least 8 characters";
     }
 
@@ -58,7 +62,7 @@ const LoginPage = () => {
     validate,
     onSubmit: async (values) => {
       try {
-        await registerUser(values);
+        await loginUser(values);
       } catch {
         console.log("There was an error");
       }
