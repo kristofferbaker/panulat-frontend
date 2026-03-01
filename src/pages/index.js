@@ -72,7 +72,7 @@ export default function Homepage() {
               </Link>
             </div>
             <div style={{paddingRight: "10px", paddingTop: "10px"}}>
-              <Link href="/login">
+              <Link href="/explore">
                 <button style={{cursor: "pointer", fontFamily: "Arial", fontSize: "15px", color: "white", border: "none", backgroundColor: "#343434", width: "100px", height: "30px", borderRadius: "15px"}}>Explore</button>
               </Link>
             </div>
